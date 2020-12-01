@@ -1,0 +1,10 @@
+spring:
+  application:
+    name: organizationService
+  profiles:
+    active: defalut
+  cloud:
+    config:
+      uri: http://localhost:8888
+encrypt:
+  key: qhfQkfrkstkcnsrl

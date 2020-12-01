@@ -1,0 +1,47 @@
+server:
+  port: 8081
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: "{cipher}761c77f4b9567f088353f195369ae3443bf855a049656141bf32a18be23d7a54758fc47b0e1158116fa5627b9faa6c95b1b245c6c668046fb64784e0cfd344a7"
+    username: study
+    password: "{cipher}4ee6798692272b91dafd87eed35ed4898e7f4b2ee48dec564cd8b6cf350ebc81"
+  jpa:
+    show-sql: true
+  application:
+    name: organizationService
+  profiles:
+    active: default
+  zipkin:
+    base-url: http://192.168.99.100:9411
+  cloud:
+    config:
+      enable: true
+    stream:
+      bindings:
+        outboundOrg:
+          destination: orgChangeTopic
+          content-type: application/json
+      kafka:
+        binder:
+          brokers: localhost
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "env,refresh"
+eureka:
+  instance:
+    prefer-ip-address: true
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka/
+security:
+  oauth2:
+    client:
+      client-id: eagleeye
+      client-secret: test
+    resource:
+      token-info-uri: http://localhost:8901/oauth/check_token

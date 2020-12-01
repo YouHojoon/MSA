@@ -1,0 +1,46 @@
+version: "3.3"
+services:
+        configServer:
+                image: dbghwns/config:1.0
+                ports: 
+                        - "8888:8888"
+                environment:
+                        ENCRYPT_KEY: "qhfQkfrkstkcnsrl"
+        licensingService:
+                image: dbghwns/license:1.0
+                ports:
+                        - "8080:8080"
+                links:
+                        - eurekaServer
+                environment:
+                        PROFILE: "default"
+                        CONFIGSERVER_URI: "http://configServer:8888"
+                        CONFIGSERVER_PORT: "8888"
+                        DATABASESERVER_PORT: "3306"
+                        ENCRYPT_KEY : "qhfQkfrkstkcnsrl"
+                        EUREKASERVER_PORT: "8761"
+                        EUREKASERVER_URI: "http://eurekaServer:8761/eureka/"
+        organizationService:
+                image: dbghwns/organization:1.0
+                links:
+                        - eurekaServer
+                ports:
+                        - "8081:8081"
+                environment:
+                        PROFILE: "default"
+                        CONFIGSERVER_URI: "http://configServer:8888"
+                        CONFIGSERVER_PORT: "8888"
+                        DATABASESERVER_PORT: "3306"
+                        ENCRYPT_KEY : "qhfQkfrkstkcnsrl"
+                        EUREKASERVER_PORT: "8761"
+                        EUREKASERVER_URI: "http://eurekaServer:8761/eureka/"
+        eurekaServer:
+                image: dbghwns/eureka:1.0
+                ports:
+                        - "8761:8761"
+                environment:
+                        PROFILE: "default"
+                        CONFIGSERVER_URI: "http://configServer:8888"
+                        CONFIGSERVER_PORT: "8888"
+                        ENCRYPT_KEY : "qhfQkfrkstkcnsrl"
+

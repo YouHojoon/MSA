@@ -1,0 +1,8 @@
+FROM openjdk:8-jdk-alpine
+RUN apk update && apk upgrade && apk add netcat-openbsd
+ARG JAR_FILE=eurekaserver-0.0.1-SNAPSHOT.jar
+ADD ${JAR_FILE} server.jar
+ADD run1.sh run1.sh
+RUN chmod +x run1.sh
+CMD ./run1.sh 
+
